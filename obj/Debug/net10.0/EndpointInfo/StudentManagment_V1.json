@@ -1,0 +1,28 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "StudentManagment API",
+    "description": "student managemnet system",
+    "version": "V1"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "StudentManagment"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": { },
+  "tags": [
+    {
+      "name": "StudentManagment"
+    }
+  ]
+}
