@@ -20,7 +20,7 @@ var connectionString = configuration.GetConnectionString("DefaultConnection");
 
 services.AddDbContext<SchoolContext>(options =>
 {
-    options.UseMySQL(
+    options.UseSqlServer(
         connectionString,
         optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(Program).Assembly.FullName)
     );

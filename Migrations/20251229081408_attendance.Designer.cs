@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentManagment.Data;
@@ -11,8 +12,8 @@ using StudentManagment.Data;
 namespace StudentManagment.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20251215103034_initialMigrations")]
-    partial class initialMigrations
+    [Migration("20251229081408_attendance")]
+    partial class attendance
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +21,38 @@ namespace StudentManagment.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "10.0.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("StudentManagment.Models.AttendanceRecord", b =>
+                {
+                    b.Property<int>("AttendanceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AttendanceId"));
+
+                    b.Property<DateTime>("CheckInTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ClassroomId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AttendanceId");
+
+                    b.HasIndex("ClassroomId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("AttendanceRecords");
+                });
 
             modelBuilder.Entity("StudentManagment.Models.CafeAccess", b =>
                 {
@@ -28,22 +60,24 @@ namespace StudentManagment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CafeAccessId"));
+
                     b.Property<bool>("HasAccessedBreakfast")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("HasAccessedDinner")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("HasAccessedLunch")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("LastResetDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ScannableIdCode")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -68,7 +102,7 @@ namespace StudentManagment.Migrations
                             HasAccessedBreakfast = false,
                             HasAccessedDinner = false,
                             HasAccessedLunch = false,
-                            LastResetDate = new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            LastResetDate = new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc),
                             ScannableIdCode = "8C:3C:CE:44",
                             StudentId = 1,
                             TotalDailyAccesses = 0
@@ -79,7 +113,7 @@ namespace StudentManagment.Migrations
                             HasAccessedBreakfast = false,
                             HasAccessedDinner = false,
                             HasAccessedLunch = false,
-                            LastResetDate = new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            LastResetDate = new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc),
                             ScannableIdCode = "F9:CE:D9:9B",
                             StudentId = 2,
                             TotalDailyAccesses = 0
@@ -90,7 +124,7 @@ namespace StudentManagment.Migrations
                             HasAccessedBreakfast = false,
                             HasAccessedDinner = false,
                             HasAccessedLunch = false,
-                            LastResetDate = new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            LastResetDate = new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc),
                             ScannableIdCode = "C6:65:D3:EA",
                             StudentId = 3,
                             TotalDailyAccesses = 0
@@ -101,7 +135,7 @@ namespace StudentManagment.Migrations
                             HasAccessedBreakfast = false,
                             HasAccessedDinner = false,
                             HasAccessedLunch = false,
-                            LastResetDate = new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            LastResetDate = new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc),
                             ScannableIdCode = "79:68:DB:9B",
                             StudentId = 4,
                             TotalDailyAccesses = 0
@@ -112,7 +146,7 @@ namespace StudentManagment.Migrations
                             HasAccessedBreakfast = false,
                             HasAccessedDinner = false,
                             HasAccessedLunch = false,
-                            LastResetDate = new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            LastResetDate = new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc),
                             ScannableIdCode = "67:EC:4B:84",
                             StudentId = 5,
                             TotalDailyAccesses = 0
@@ -123,7 +157,7 @@ namespace StudentManagment.Migrations
                             HasAccessedBreakfast = false,
                             HasAccessedDinner = false,
                             HasAccessedLunch = false,
-                            LastResetDate = new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            LastResetDate = new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc),
                             ScannableIdCode = "59:3B:3D:41",
                             StudentId = 6,
                             TotalDailyAccesses = 0
@@ -134,11 +168,37 @@ namespace StudentManagment.Migrations
                             HasAccessedBreakfast = false,
                             HasAccessedDinner = false,
                             HasAccessedLunch = false,
-                            LastResetDate = new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            LastResetDate = new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc),
                             ScannableIdCode = "55:03:FE:EC",
                             StudentId = 7,
                             TotalDailyAccesses = 0
                         });
+                });
+
+            modelBuilder.Entity("StudentManagment.Models.Classroom", b =>
+                {
+                    b.Property<int>("RoomId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"));
+
+                    b.Property<string>("DynamicSecret")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float");
+
+                    b.Property<string>("RoomName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoomId");
+
+                    b.ToTable("Classrooms");
                 });
 
             modelBuilder.Entity("StudentManagment.Models.Course", b =>
@@ -147,10 +207,12 @@ namespace StudentManagment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseId"));
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("Credits")
                         .HasColumnType("int");
@@ -159,12 +221,12 @@ namespace StudentManagment.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("CourseId");
 
@@ -256,6 +318,8 @@ namespace StudentManagment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseAssignmentId"));
+
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
@@ -325,13 +389,15 @@ namespace StudentManagment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"));
+
                     b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("DepartmentId");
 
@@ -376,16 +442,18 @@ namespace StudentManagment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnrollmentId"));
+
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Grade")
                         .HasMaxLength(5)
-                        .HasColumnType("varchar(5)");
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("Semester")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -465,8 +533,10 @@ namespace StudentManagment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentId"));
+
                     b.Property<string>("AccountNumber")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
@@ -475,13 +545,13 @@ namespace StudentManagment.Migrations
                         .HasColumnType("date");
 
                     b.Property<double>("GPA")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<bool>("IsEnrolled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("ReceivesCashAllowance")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -489,7 +559,8 @@ namespace StudentManagment.Migrations
                     b.HasKey("StudentId");
 
                     b.HasIndex("AccountNumber")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[AccountNumber] IS NOT NULL");
 
                     b.HasIndex("DepartmentId");
 
@@ -577,6 +648,8 @@ namespace StudentManagment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeacherId"));
+
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
@@ -618,6 +691,8 @@ namespace StudentManagment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HistoryId"));
+
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
@@ -645,8 +720,10 @@ namespace StudentManagment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
@@ -654,52 +731,52 @@ namespace StudentManagment.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastLogin")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(13)
-                        .HasColumnType("varchar(13)");
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("RefreshToken")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("RefreshTokenExpiryTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("UserId");
 
@@ -722,7 +799,7 @@ namespace StudentManagment.Migrations
                             Gender = "Male",
                             IsActive = true,
                             LastName = "Admin",
-                            PasswordHash = "$2a$11$KLk9ZOo5rPwRL8rVqVUS.uLbsVbzYvwynCOChUyQhpnpseuUOU19G",
+                            PasswordHash = "$2a$11$Sfdz7znqBX29ptDS87udR.3UHiO.t3wYqzo1HM0H56vPfWUbuf.Dq",
                             Phone = "1234567890",
                             Role = "Admin",
                             Username = "sys.admin"
@@ -737,7 +814,7 @@ namespace StudentManagment.Migrations
                             Gender = "Female",
                             IsActive = true,
                             LastName = "Smith",
-                            PasswordHash = "$2a$11$pUwviYr0BkvXxrccs3Mz2enXLP582dNuxCvSngXbE5viRlF/SVhMC",
+                            PasswordHash = "$2a$11$oP1Emcks9uETANJJP8pKkeO/W.Zl13T0DIOBy7c1V5gGuoxbgKCOS",
                             Phone = "0987654321",
                             Role = "Teacher",
                             Username = "a.smith"
@@ -752,7 +829,7 @@ namespace StudentManagment.Migrations
                             Gender = "Male",
                             IsActive = true,
                             LastName = "Chen",
-                            PasswordHash = "$2a$11$pUwviYr0BkvXxrccs3Mz2enXLP582dNuxCvSngXbE5viRlF/SVhMC",
+                            PasswordHash = "$2a$11$oP1Emcks9uETANJJP8pKkeO/W.Zl13T0DIOBy7c1V5gGuoxbgKCOS",
                             Phone = "5551234567",
                             Role = "Teacher",
                             Username = "r.chen"
@@ -767,7 +844,7 @@ namespace StudentManagment.Migrations
                             Gender = "Male",
                             IsActive = true,
                             LastName = "Johnson",
-                            PasswordHash = "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO",
+                            PasswordHash = "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu",
                             Phone = "1122334455",
                             Role = "Student",
                             Username = "b.johnson"
@@ -782,7 +859,7 @@ namespace StudentManagment.Migrations
                             Gender = "Female",
                             IsActive = true,
                             LastName = "Williams",
-                            PasswordHash = "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO",
+                            PasswordHash = "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu",
                             Phone = "2233445566",
                             Role = "Student",
                             Username = "s.williams"
@@ -797,7 +874,7 @@ namespace StudentManagment.Migrations
                             Gender = "Male",
                             IsActive = true,
                             LastName = "Brown",
-                            PasswordHash = "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO",
+                            PasswordHash = "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu",
                             Phone = "3344556677",
                             Role = "Student",
                             Username = "m.brown"
@@ -812,7 +889,7 @@ namespace StudentManagment.Migrations
                             Gender = "Female",
                             IsActive = true,
                             LastName = "Davis",
-                            PasswordHash = "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO",
+                            PasswordHash = "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu",
                             Phone = "4455667788",
                             Role = "Student",
                             Username = "e.davis"
@@ -827,7 +904,7 @@ namespace StudentManagment.Migrations
                             Gender = "Male",
                             IsActive = true,
                             LastName = "Miller",
-                            PasswordHash = "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO",
+                            PasswordHash = "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu",
                             Phone = "5566778899",
                             Role = "Student",
                             Username = "j.miller"
@@ -842,7 +919,7 @@ namespace StudentManagment.Migrations
                             Gender = "Female",
                             IsActive = true,
                             LastName = "Wilson",
-                            PasswordHash = "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO",
+                            PasswordHash = "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu",
                             Phone = "6677889900",
                             Role = "Student",
                             Username = "o.wilson"
@@ -857,11 +934,30 @@ namespace StudentManagment.Migrations
                             Gender = "Male",
                             IsActive = true,
                             LastName = "Taylor",
-                            PasswordHash = "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO",
+                            PasswordHash = "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu",
                             Phone = "7788990011",
                             Role = "Student",
                             Username = "d.taylor"
                         });
+                });
+
+            modelBuilder.Entity("StudentManagment.Models.AttendanceRecord", b =>
+                {
+                    b.HasOne("StudentManagment.Models.Classroom", "Classroom")
+                        .WithMany()
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentManagment.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Classroom");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("StudentManagment.Models.CafeAccess", b =>

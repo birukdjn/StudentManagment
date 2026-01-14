@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -9,66 +8,77 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace StudentManagment.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigrations : Migration
+    public partial class attendance : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySQL:Charset", "utf8mb4");
+            migrationBuilder.CreateTable(
+                name: "Classrooms",
+                columns: table => new
+                {
+                    RoomId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    DynamicSecret = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classrooms", x => x.RoomId);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Departments",
                 columns: table => new
                 {
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.DepartmentId);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    Gender = table.Column<string>(type: "longtext", nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
-                    Phone = table.Column<string>(type: "varchar(13)", maxLength: 13, nullable: true),
-                    Username = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    Role = table.Column<string>(type: "longtext", nullable: false),
-                    Email = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    PasswordHash = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastLogin = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    RefreshToken = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
-                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    Phone = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastLogin = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RefreshToken = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Courses",
                 columns: table => new
                 {
                     CourseId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Code = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false),
-                    Title = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Credits = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -80,20 +90,19 @@ namespace StudentManagment.Migrations
                         principalTable: "Departments",
                         principalColumn: "DepartmentId",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
                     StudentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EnrollmentDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    GPA = table.Column<double>(type: "double", nullable: false),
-                    IsEnrolled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ReceivesCashAllowance = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AccountNumber = table.Column<string>(type: "varchar(255)", nullable: true),
+                    GPA = table.Column<double>(type: "float", nullable: false),
+                    IsEnrolled = table.Column<bool>(type: "bit", nullable: false),
+                    ReceivesCashAllowance = table.Column<bool>(type: "bit", nullable: false),
+                    AccountNumber = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -112,15 +121,14 @@ namespace StudentManagment.Migrations
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Teachers",
                 columns: table => new
                 {
                     TeacherId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DepartmentId = table.Column<int>(type: "int", nullable: true),
                     HireDate = table.Column<DateOnly>(type: "date", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
@@ -140,21 +148,48 @@ namespace StudentManagment.Migrations
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AttendanceRecords",
+                columns: table => new
+                {
+                    AttendanceId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    ClassroomId = table.Column<int>(type: "int", nullable: false),
+                    CheckInTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsVerified = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AttendanceRecords", x => x.AttendanceId);
+                    table.ForeignKey(
+                        name: "FK_AttendanceRecords_Classrooms_ClassroomId",
+                        column: x => x.ClassroomId,
+                        principalTable: "Classrooms",
+                        principalColumn: "RoomId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AttendanceRecords_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "StudentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateTable(
                 name: "CafeAccesses",
                 columns: table => new
                 {
                     CafeAccessId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     StudentId = table.Column<int>(type: "int", nullable: false),
-                    ScannableIdCode = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    HasAccessedBreakfast = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    HasAccessedLunch = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    HasAccessedDinner = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LastResetDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ScannableIdCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    HasAccessedBreakfast = table.Column<bool>(type: "bit", nullable: false),
+                    HasAccessedLunch = table.Column<bool>(type: "bit", nullable: false),
+                    HasAccessedDinner = table.Column<bool>(type: "bit", nullable: false),
+                    LastResetDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TotalDailyAccesses = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -166,20 +201,19 @@ namespace StudentManagment.Migrations
                         principalTable: "Students",
                         principalColumn: "StudentId",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "Enrollments",
                 columns: table => new
                 {
                     EnrollmentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
-                    Semester = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Grade = table.Column<string>(type: "varchar(5)", maxLength: 5, nullable: true)
+                    Semester = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Grade = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,15 +230,14 @@ namespace StudentManagment.Migrations
                         principalTable: "Students",
                         principalColumn: "StudentId",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "CourseAssignments",
                 columns: table => new
                 {
                     CourseAssignmentId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     TeacherId = table.Column<int>(type: "int", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
@@ -225,15 +258,14 @@ namespace StudentManagment.Migrations
                         principalTable: "Teachers",
                         principalColumn: "TeacherId",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "TeacherDepartmentHistory",
                 columns: table => new
                 {
                     HistoryId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TeacherId = table.Column<int>(type: "int", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateOnly>(type: "date", nullable: false),
@@ -254,8 +286,7 @@ namespace StudentManagment.Migrations
                         principalTable: "Teachers",
                         principalColumn: "TeacherId",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+                });
 
             migrationBuilder.InsertData(
                 table: "Departments",
@@ -274,16 +305,16 @@ namespace StudentManagment.Migrations
                 columns: new[] { "UserId", "CreatedAt", "DateOfBirth", "Email", "FirstName", "Gender", "IsActive", "LastLogin", "LastName", "PasswordHash", "Phone", "RefreshToken", "RefreshTokenExpiryTime", "Role", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(1980, 1, 1), "admin@school.edu", "System", "Male", true, null, "Admin", "$2a$11$KLk9ZOo5rPwRL8rVqVUS.uLbsVbzYvwynCOChUyQhpnpseuUOU19G", "1234567890", null, null, "Admin", "sys.admin" },
-                    { 2, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(1985, 5, 20), "alice.smith@school.edu", "Alice", "Female", true, null, "Smith", "$2a$11$pUwviYr0BkvXxrccs3Mz2enXLP582dNuxCvSngXbE5viRlF/SVhMC", "0987654321", null, null, "Teacher", "a.smith" },
-                    { 3, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2002, 9, 15), "bob.johnson@school.edu", "Bob", "Male", true, null, "Johnson", "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO", "1122334455", null, null, "Student", "b.johnson" },
-                    { 4, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2003, 2, 28), "sarah.williams@school.edu", "Sarah", "Female", true, null, "Williams", "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO", "2233445566", null, null, "Student", "s.williams" },
-                    { 5, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2002, 7, 10), "michael.brown@school.edu", "Michael", "Male", true, null, "Brown", "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO", "3344556677", null, null, "Student", "m.brown" },
-                    { 6, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2003, 11, 5), "emma.davis@school.edu", "Emma", "Female", true, null, "Davis", "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO", "4455667788", null, null, "Student", "e.davis" },
-                    { 7, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2002, 4, 22), "james.miller@school.edu", "James", "Male", true, null, "Miller", "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO", "5566778899", null, null, "Student", "j.miller" },
-                    { 8, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2003, 8, 30), "olivia.wilson@school.edu", "Olivia", "Female", true, null, "Wilson", "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO", "6677889900", null, null, "Student", "o.wilson" },
-                    { 9, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2002, 12, 18), "david.taylor@school.edu", "David", "Male", true, null, "Taylor", "$2a$11$IhfNpX72Ez.nqaceXgE5xepe75j6x5LCUIRdWo7jlVAdlGmMsGSNO", "7788990011", null, null, "Student", "d.taylor" },
-                    { 10, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(1978, 3, 15), "robert.chen@school.edu", "Robert", "Male", true, null, "Chen", "$2a$11$pUwviYr0BkvXxrccs3Mz2enXLP582dNuxCvSngXbE5viRlF/SVhMC", "5551234567", null, null, "Teacher", "r.chen" }
+                    { 1, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(1980, 1, 1), "admin@school.edu", "System", "Male", true, null, "Admin", "$2a$11$Sfdz7znqBX29ptDS87udR.3UHiO.t3wYqzo1HM0H56vPfWUbuf.Dq", "1234567890", null, null, "Admin", "sys.admin" },
+                    { 2, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(1985, 5, 20), "alice.smith@school.edu", "Alice", "Female", true, null, "Smith", "$2a$11$oP1Emcks9uETANJJP8pKkeO/W.Zl13T0DIOBy7c1V5gGuoxbgKCOS", "0987654321", null, null, "Teacher", "a.smith" },
+                    { 3, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2002, 9, 15), "bob.johnson@school.edu", "Bob", "Male", true, null, "Johnson", "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu", "1122334455", null, null, "Student", "b.johnson" },
+                    { 4, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2003, 2, 28), "sarah.williams@school.edu", "Sarah", "Female", true, null, "Williams", "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu", "2233445566", null, null, "Student", "s.williams" },
+                    { 5, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2002, 7, 10), "michael.brown@school.edu", "Michael", "Male", true, null, "Brown", "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu", "3344556677", null, null, "Student", "m.brown" },
+                    { 6, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2003, 11, 5), "emma.davis@school.edu", "Emma", "Female", true, null, "Davis", "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu", "4455667788", null, null, "Student", "e.davis" },
+                    { 7, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2002, 4, 22), "james.miller@school.edu", "James", "Male", true, null, "Miller", "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu", "5566778899", null, null, "Student", "j.miller" },
+                    { 8, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2003, 8, 30), "olivia.wilson@school.edu", "Olivia", "Female", true, null, "Wilson", "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu", "6677889900", null, null, "Student", "o.wilson" },
+                    { 9, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2002, 12, 18), "david.taylor@school.edu", "David", "Male", true, null, "Taylor", "$2a$11$a2FTmqnfuSBkak5QWjrwkOjNdRcRz3CoKXDSNrVNc7nATprK9IANu", "7788990011", null, null, "Student", "d.taylor" },
+                    { 10, new DateTime(2024, 1, 1, 10, 0, 0, 0, DateTimeKind.Utc), new DateOnly(1978, 3, 15), "robert.chen@school.edu", "Robert", "Male", true, null, "Chen", "$2a$11$oP1Emcks9uETANJJP8pKkeO/W.Zl13T0DIOBy7c1V5gGuoxbgKCOS", "5551234567", null, null, "Teacher", "r.chen" }
                 });
 
             migrationBuilder.InsertData(
@@ -329,13 +360,13 @@ namespace StudentManagment.Migrations
                 columns: new[] { "CafeAccessId", "HasAccessedBreakfast", "HasAccessedDinner", "HasAccessedLunch", "LastResetDate", "ScannableIdCode", "StudentId", "TotalDailyAccesses" },
                 values: new object[,]
                 {
-                    { 1, false, false, false, new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc), "8C:3C:CE:44", 1, 0 },
-                    { 2, false, false, false, new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc), "F9:CE:D9:9B", 2, 0 },
-                    { 3, false, false, false, new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc), "C6:65:D3:EA", 3, 0 },
-                    { 4, false, false, false, new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc), "79:68:DB:9B", 4, 0 },
-                    { 5, false, false, false, new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc), "67:EC:4B:84", 5, 0 },
-                    { 6, false, false, false, new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc), "59:3B:3D:41", 6, 0 },
-                    { 7, false, false, false, new DateTime(2025, 12, 15, 0, 0, 0, 0, DateTimeKind.Utc), "55:03:FE:EC", 7, 0 }
+                    { 1, false, false, false, new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc), "8C:3C:CE:44", 1, 0 },
+                    { 2, false, false, false, new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc), "F9:CE:D9:9B", 2, 0 },
+                    { 3, false, false, false, new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc), "C6:65:D3:EA", 3, 0 },
+                    { 4, false, false, false, new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc), "79:68:DB:9B", 4, 0 },
+                    { 5, false, false, false, new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc), "67:EC:4B:84", 5, 0 },
+                    { 6, false, false, false, new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc), "59:3B:3D:41", 6, 0 },
+                    { 7, false, false, false, new DateTime(2025, 12, 29, 0, 0, 0, 0, DateTimeKind.Utc), "55:03:FE:EC", 7, 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -362,6 +393,16 @@ namespace StudentManagment.Migrations
                     { 5, 6, "A", "Semester1", 4, 2024 },
                     { 6, 1, "A", "Semester1", 7, 2024 }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AttendanceRecords_ClassroomId",
+                table: "AttendanceRecords",
+                column: "ClassroomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AttendanceRecords_StudentId",
+                table: "AttendanceRecords",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CafeAccesses_ScannableIdCode",
@@ -411,7 +452,8 @@ namespace StudentManagment.Migrations
                 name: "IX_Students_AccountNumber",
                 table: "Students",
                 column: "AccountNumber",
-                unique: true);
+                unique: true,
+                filter: "[AccountNumber] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_DepartmentId",
@@ -462,6 +504,9 @@ namespace StudentManagment.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AttendanceRecords");
+
+            migrationBuilder.DropTable(
                 name: "CafeAccesses");
 
             migrationBuilder.DropTable(
@@ -472,6 +517,9 @@ namespace StudentManagment.Migrations
 
             migrationBuilder.DropTable(
                 name: "TeacherDepartmentHistory");
+
+            migrationBuilder.DropTable(
+                name: "Classrooms");
 
             migrationBuilder.DropTable(
                 name: "Courses");

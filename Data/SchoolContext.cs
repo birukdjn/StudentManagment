@@ -17,6 +17,9 @@ namespace StudentManagment.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<CourseAssignment> CourseAssignments { get; set; }
+        public DbSet<Classroom> Classrooms { get; set; }
+        public DbSet<AttendanceRecord> AttendanceRecords { get; set; }
+
 
 
 

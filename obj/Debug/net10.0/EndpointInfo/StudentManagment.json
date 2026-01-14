@@ -5,6 +5,37 @@
     "version": "v1"
   },
   "paths": {
+    "/api/Attendance/checkin": {
+      "post": {
+        "tags": [
+          "Attendance"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckInDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckInDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckInDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/CafeAccess/scan": {
       "post": {
         "tags": [
@@ -1431,6 +1462,28 @@
         },
         "additionalProperties": false
       },
+      "CheckInDto": {
+        "type": "object",
+        "properties": {
+          "qrToken": {
+            "type": "string",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "classroomId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "CreateCafeAccessDto": {
         "required": [
           "scannableIdCode",
@@ -2034,6 +2087,9 @@
     }
   },
   "tags": [
+    {
+      "name": "Attendance"
+    },
     {
       "name": "CafeAccess"
     },

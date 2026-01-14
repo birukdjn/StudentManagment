@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "StudentManagment.Controllers.AttendanceController",
+    "Method": "CheckIn",
+    "RelativePath": "api/Attendance/checkin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "StudentManagment.DTOs.Attendance.CheckInDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "StudentManagment.Controllers.CafeAccessController",
     "Method": "CreateCafeAccess",
     "RelativePath": "api/CafeAccess",
